@@ -37,7 +37,7 @@ function draw(){
     objectdetector.detect(video , gotResult);
     for(i=0 ; i<object.length ; i++){
         document.getElementById("status").innerHTML = "Status : Object Detected ";
-        document.getElementById("object_detected").innerHTML ="Number of objects detected are:  "+object.length;
+        
         
         fill("#FF0000");
         percent = floor(object[i].confidence*100);
@@ -45,6 +45,19 @@ function draw(){
         noFill();
         stroke("#FF0000");
         rect(object[i].x , object[i].y , object[i].width , object[i].height);
+    }
+
+    if(object[i].label == object_name ){
+        document.getElementById("object_detected").innerHTML = object_name+"found";
+        video_webcamLiveView.stop();
+        objectDetector.detect(gotResult);
+        synth = window.speechSynthesis;
+        utter_This = new speechSynthesisUtterance(speak_data);
+        speak_data = object_name+"found";
+        synth.speak(utter_This);
+
+    }else{
+        document.getElementById("object_detected").innerHTML = object_name+" notfound";
     }
 }
 }
